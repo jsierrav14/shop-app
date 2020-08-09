@@ -90,7 +90,9 @@ const EditProductScreen = props => {
     }, [submitHandler])
 
     const inputChangeHandler = useCallback(
-        (inputIdentifier, inputValue, inputValidity) => {
+       
+        (inputIdentifier, inputValue, inputValidity) => { 
+            console.log('INPUT',inputValue,inputIdentifier)
             dispatchFormState({
                 type: REDUCER_UPDATE,
                 value: inputValue,
