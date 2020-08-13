@@ -1,6 +1,7 @@
 import React, {useState}from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import {createStore,combineReducers} from 'redux'
+import {createStore,combineReducers,applyMiddleware} from 'redux'
+import ReduxThunk from 'redux-thunk'
 import {Provider} from 'react-redux'
 import productReducer from './store/reducers/product.reducer'
 import cartReducer from './store/reducers/cart.reducer'
@@ -16,7 +17,7 @@ const rootReducer = combineReducers({
   orders:ordersReducer
 })
 
-const store = createStore(rootReducer,composeWithDevTools());
+const store = createStore(rootReducer,applyMiddleware(ReduxThunk));
 const fetchFonts =()=>{
   return Font.loadAsync({
     'open-sans':require('./assets/fonts/OpenSans-Regular.ttf'),
