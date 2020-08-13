@@ -44,9 +44,12 @@ export const fetchProducts = (productId) => {
 export const deleteProduct = productId => {
      return async dispatch => {
 
-          await fetch(`https://shop-app-api.firebaseio.com/products/${productId}.json`, {
+          const response = await fetch(`https://shop-app-api.firebaseio.com/products/${productId}.json`, {
                method: 'DELETE',
           })
+          if (!response.ok) {
+               throw new Error('Somenting was wrong')
+          }
           dispatch({ type: DELETER_PRODUCT, pid: productId })
 
      }
@@ -56,7 +59,6 @@ export const createProduct = (title, description, imageUrl, price) => {
      return async dispatch => {
 
 
-          console.log('DESC',description)
           const response = await fetch('https://shop-app-api.firebaseio.com/products.json', {
                method: 'POST',
                headers: {
@@ -71,6 +73,10 @@ export const createProduct = (title, description, imageUrl, price) => {
                     }
                )
           })
+
+          if (!response.ok) {
+               throw new Error('Somenting was wrong')
+          }
 
           const data = await response.json();
           dispatch({
@@ -94,7 +100,7 @@ export const updateProduct = (id, title, description, imageUrl) => {
 
      return async dispatch => {
 
-          await fetch(`https://shop-app-api.firebaseio.com/products/${id}.json`, {
+          const response = await fetch(`https://shop-app-api.firebaseio.com/products/${id}.jon`, {
                method: 'PATCH',
                headers: {'Content-Type': 'application/json'},
                body: JSON.stringify(
@@ -105,6 +111,10 @@ export const updateProduct = (id, title, description, imageUrl) => {
                     }
                )
           })
+
+          if (!response.ok) {
+               throw new Error('Somenting was wrong')
+          }
           dispatch({
                type: UPDATE_PRODUCT,
                pid: id,

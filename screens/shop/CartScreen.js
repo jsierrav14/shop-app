@@ -1,5 +1,5 @@
-import React from 'react'
-import { View, Text, FlatList, StyleSheet, Button } from 'react-native'
+import React, { useState } from 'react'
+import { View, Text, FlatList, StyleSheet, Button, ActivityIndicator } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 import { Colors } from 'react-native/Libraries/NewAppScreen'
 import CartItem from '../../components/shop/CartItem'
@@ -7,6 +7,7 @@ import * as cartActions from '../../store/actions/cart.action'
 import * as  orderActions from '../../store/actions/orders.action'
 const CartScreen = props => {
 
+    const [isLoading, setIsLoading] = useState(false)
     const cartTotalAmount = useSelector(state => state.cart.totalAmount)
     const cartItems = useSelector(state => {
         const transformedCartItems = [];
@@ -24,20 +25,28 @@ const CartScreen = props => {
         return transformedCartItems.sort((a, b) => a.productId > b.productId ? 1 : -1);
     })
     const dispatch = useDispatch();
+
+    const sendOrder = async () => {
+        setIsLoading(true)
+        await dispatch(orderActions.addOrder(cartItems, cartTotalAmount))
+        setIsLoading(false)
+    }
+
+
     return <View style={styles.screen}>
 
         <View style={styles.summary}>
             <Text style={styles.summaryText}>
                 Total: <Text style={styles.amount}>
-                    ${Math.round((cartTotalAmount.toFixed(2)*100)/10)}
+                    ${Math.round((cartTotalAmount.toFixed(2) * 100) / 10)}
                 </Text>
             </Text>
-            <Button
-                title="Order Now"
-                color={Colors.accent}
-                disabled={cartItems.length === 0} onPress={()=>{
-                    dispatch(orderActions.addOrder(cartItems,cartTotalAmount))
-                }} />
+            {isLoading ? <ActivityIndicator size='small' color={Colors.primary} /> :
+                <Button
+                    title="Order Now"
+                    color={Colors.accent}
+                    disabled={cartItems.length === 0} onPress={sendOrder} />
+                }
         </View>
 
         <FlatList
