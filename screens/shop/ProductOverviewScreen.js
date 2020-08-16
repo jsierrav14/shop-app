@@ -74,6 +74,16 @@ const ProductOverviewScreen = props => {
             </View>
         )
     }
+
+    if(products.length === 0){
+
+        return(
+            <View>
+             <Text>No products found, maybe start creating some</Text>
+            </View>
+        )
+
+    }
     return (<FlatList data={products}
         onRefresh={loadProducts}
         refreshing={refreshing}
