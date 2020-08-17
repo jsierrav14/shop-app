@@ -7,10 +7,9 @@ import productReducer from './store/reducers/product.reducer'
 import cartReducer from './store/reducers/cart.reducer'
 import ordersReducer from './store/reducers/orders.reducer'
 import authReducer from './store/reducers/auth.reducer';
-import ShopNavigator from './navigation/ShopNavigation'
 import {AppLoading} from 'expo'
 import * as Font from 'expo-font'
-import {composeWithDevTools} from 'redux-devtools-extension';
+import NavigationContainer from './navigation/NavigationContainer';
 
 
 const rootReducer = combineReducers({
@@ -25,7 +24,6 @@ const fetchFonts =()=>{
   return Font.loadAsync({
     'open-sans':require('./assets/fonts/OpenSans-Regular.ttf'),
     'open-sans-bold':require('./assets/fonts/OpenSans-Bold.ttf')
-
   })
 }
 
@@ -42,7 +40,7 @@ export default function App() {
 
   return (
     <Provider store={store}>
-      <ShopNavigator />
+      <NavigationContainer />
     </Provider>
   );
 }
